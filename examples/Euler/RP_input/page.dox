@@ -1,0 +1,80 @@
+/*!
+ @page package_examples_Euler_RIEMANN  RIEMANN 问题
+
+\verbatim
+
+给出不同的一维激波管问题的输入文件, 以测试应用程序中采用的不同的 Riemann 解法器. 
+
+每个方向，看做一个 pencil，解 RIEMANN 问题。如图： 
+ 
+
+         __________________
+        |\                 \
+        | \                 \
+        |  \                 \               "Pencil"
+        |   \_________________\         ___________________
+        | |\ |                |        |\__________________\
+    ----->\| |                |---->   \|__________________|
+         \   |                |             rho, p, e
+          \  |                |
+           \ |                |
+            \|________________|
+
+
+已知：初始时刻激波管两侧的密度、速度和压力.
+计算区域：[-0.5 , 0.5]
+
+
+
+输入文件：
+-----------
+
+    RP-testX-2d.input ................. 二维问题pencil在X方向上.
+    RP-testY-2d.input ................. 二维问题pencil在Y方向上.
+    RP-testX-3d.input ................. 三维问题pencil在X方向上.
+    RP-testY-3d.input ................. 三维问题pencil在Y方向上.
+    RP-testZ-3d.input ................. 三维问题pencil在Z方向上.
+
+
+
+数据文件：
+----------
+
+七种不同的激波管问题数据如下（它们包含在输入文件中）：
+ 
+    RP-test1.data .............. Sod 激波管
+                                 left:  rho = 1.0,   v = [0,0,0],  p = 1.0
+                                 right: rho = 0.125, v = [0,0,0],  p = 0.1
+
+    RP-test2[XYZ].data ......... "123 problem" -- 2 稀疏波, stationary 
+                                 contact
+                                 left:  rho = 1.0,   v = [-2,0,0], p = 0.4
+                                 left:  rho = 1.0,   v = [2,0,0],  p = 0.4
+
+    RP-test3.data ..............  Woodward-Colella 冲击波(左侧)
+                                 left:  rho = 1.0,   v = [0,0,0],  p = 1000.
+                                 right: rho = 1.0,   v = [0,0,0],  p = 0.01 
+
+    RP-test4.data ..............  Woodward-Colella 冲击波（右侧）
+                                 left:  rho = 1.0,   v = [0,0,0],  p = 0.01 
+                                 right: rho = 1.0,   v = [0,0,0],  p = 100. 
+
+    RP-test5[XYZ].data ......... colliding shocks
+                                 left:  rho=5.99924, v=[19.5975,0,0], p=460.894
+                                 right: rho=5.99924, v=[-6.19633,0,0], p=46.0950
+
+    RP-test6[XYZ].data ......... slow moving contact
+                                 left:  rho = 1.0 ,  v=[-19.5975,0,0], p=1000.  
+                                 left:  rho = 1.0 ,  v=[-19.5975,0,0], p=0.01   
+
+    RP-test7[XYZ].data ......... contact discontinuity
+                                 left:  rho = 1.0 ,  v = [4,0,0], p = 1.  
+                                 left:  rho = 0.5 ,  v = [4,0,0], p = 1.  
+
+\endverbatim
+*/
+
+
+
+
+

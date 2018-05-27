@@ -1,0 +1,20 @@
+      subroutine stufprobc(
+     &  CIRCLE_ROTATION_DELTAin,CIRCLE_ROTATION_PARABin,
+     &  SQUARE_ROTATION_DELTAin,
+     &  CELLGin,FACEGin,FLUXGin)
+      implicit none
+      integer 
+     &  CIRCLE_ROTATION_DELTAin,CIRCLE_ROTATION_PARABin,
+     &  SQUARE_ROTATION_DELTAin,
+     &  CELLGin,FACEGin,FLUXGin
+include(FORTDIR/../probparams.i)dnl
+
+      CIRCLE_ROTATION_DELTA=CIRCLE_ROTATION_DELTAin
+      CIRCLE_ROTATION_PARAB=CIRCLE_ROTATION_PARABin
+      SQUARE_ROTATION_DELTA=SQUARE_ROTATION_DELTAin
+      CELLG=CELLGin
+      FACEG=FACEGin
+      FLUXG=FLUXGin
+
+      return
+      end

@@ -1,0 +1,193 @@
+// 
+// File:        2block_horizontal_slide.input
+// Package:     JASMIN application
+// Copyright:   (c) 2009-2014 The Regents of IAPCM
+// Revision:    $Revision: 1.5 $
+// Modified:    $Date: 2007/08/20 01:39:33 $
+// Description: 模型输入文件
+//
+Dynamic {
+   nonconform_boundaries      = 2         // 非协调块边界序号
+   velocity                   = 1.0, 0.1  // 网格结点速度
+   time_step                  = 0.03      // 时间步长
+   opstencil_cells            = 1         // 处理非协调块边界的计算格式宽度
+   guard_cells                = 1         // 警戒单元数
+}
+
+Main {
+// 指定日志文件名以及是否为所有进程创建日志文件. 
+   log_file_name = "MultiblockNonconformContact-2block_horizontal_nonconform.log"
+   log_all_nodes    = TRUE
+
+// visualization dump parameters
+   viz_dump_interval     = 1          // zero to turn off
+   viz_writer            = "JaVis" 
+   viz_dump_dirname      = "viz_2block_horizontal_slide"
+   viz_dump_filename     = "viz"
+   javis_number_procs_per_file = 1
+
+// restart dump parameters
+   restart_interval       = 0         // zero to turn off
+   restart_write_dirname  = "restart_2block_horizontal_slide"
+
+   coordinate_system_tag = 0  // 0 表示笛卡尔坐标系
+                              // 1 表示柱坐标系
+                              // 2 表示球坐标系
+
+   module_id         = 2
+}
+
+TimerManager{
+   timer_list           = "apps::DynamicLevelIntegrator::*",
+                          "apps::main::*",
+                          "algs::HierarchyTimeIntegrator::*",
+                          "adpt::GriddingAlgorithm::*",
+                          "hier::Patch::*"
+
+
+   //print_exclusive          = TRUE
+   //print_user               = TRUE
+   //print_sys                = TRUE
+   print_summed             = TRUE
+   print_max                = TRUE
+   print_timer_overhead     = TRUE
+   print_threshold          = 0.0
+   //print_concurrent         = TRUE
+
+}
+
+DeformingGridInputUtilities2 {
+
+    POINTS {
+       number_of_points = 8
+       coordinates_0       = 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0
+       coordinates_1       = 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0
+       boundary_points     = 0, 1, 2, 3, 4, 5, 6, 7
+       boundary_conditions = 0, 0, 0, 0, 0, 0, 0, 0
+    }
+    SEGMENTS {
+       number_of_segments = 8
+       segment_0 {
+          type_of_geometry   = "LINE"
+          number_of_cells    = 16
+          start_point_number = 0
+          end_point_number   = 1
+          partitioning_method= "EVEN"
+          boundary_condition = 0       // 普通物理边界. 
+       }
+       segment_1 {
+          type_of_geometry   = "LINE"
+          number_of_cells    = 16
+          start_point_number = 0
+          end_point_number   = 2
+          partitioning_method= "EVEN"
+          boundary_condition = 1       // 普通物理边界.
+       }
+       segment_2 {
+          type_of_geometry   = "LINE"
+          number_of_cells    = 16
+          start_point_number = 2
+          end_point_number   = 3
+          partitioning_method= "EVEN"
+          boundary_condition = 2       // 非协调块边界.
+       }
+       segment_3 {
+          type_of_geometry   = "LINE"
+          number_of_cells    = 16
+          start_point_number = 1
+          end_point_number   = 3
+          partitioning_method= "EVEN"
+          boundary_condition = 3       // 普通物理边界.
+       }
+       segment_4 {
+          type_of_geometry   = "LINE"
+          number_of_cells    = 32
+          start_point_number = 4
+          end_point_number   = 5
+          partitioning_method= "EVEN"
+          boundary_condition = 2       // 非协调块边界.
+       }
+       segment_5 {
+          type_of_geometry   = "LINE"
+          number_of_cells    = 16
+          start_point_number = 4
+          end_point_number   = 6
+          partitioning_method= "EVEN"
+          boundary_condition = 1        // 普通物理边界.
+       }
+       segment_6 {
+          type_of_geometry   = "LINE"
+          number_of_cells    = 32
+          start_point_number = 6
+          end_point_number   = 7
+          partitioning_method= "EVEN"
+          boundary_condition = 0        // 普通物理边界.
+       }
+       segment_7 {
+          type_of_geometry   = "LINE"
+          number_of_cells    = 16
+          start_point_number = 5
+          end_point_number   = 7
+          partitioning_method= "EVEN"
+          boundary_condition = 3        // 普通物理边界.
+       }
+    }
+    DOMAINS {
+       number_of_domains = 2
+       domain_0 {
+          mesh_generation_method = "YEVEN"
+          box   = [(0,0),(15,15)]  
+          left_edge  = 1
+          right_edge = 3
+          lower_edge = 0
+          upper_edge = 2
+       }
+       domain_1 {
+          mesh_generation_method = "YEVEN"
+          box   = [(0,0),(31,15)] 
+          left_edge  = 5
+          right_edge = 7
+          lower_edge = 4  
+          upper_edge = 6  
+       }
+    }
+    BLOCKS {
+       number_of_blocks = 2
+       block_0 { domains = 0 }
+       block_1 { domains = 1 }
+    }
+}
+
+DynamicLevelIntegrator{
+}
+
+HierarchyTimeIntegrator{
+   start_time           = 0.0     	 // 初始模拟时间
+   end_time             = 2.4   	 // 终止模拟时间
+   grow_dt              = 1.1e0    	 // 时间步长最大增长因子
+   max_dt		= 1000.0
+   max_integrator_steps = 10             // 最大模拟步数(模拟步数)
+   regrid_interval	= 10
+   use_nonuniform_workload  = FALSE	
+   coarsest_level_balance_threshold = 0.8
+   print_balance_efficiency = TRUE
+  
+   GriddingAlgorithm{
+      max_levels = 1        // 网格片层次结构中允许的最大网格层数.
+
+      largest_patch_size {
+         level_0 = 8, 8
+         // 所有细网格层都使用level_0的最大网格片尺寸.
+       }
+
+      smallest_patch_size {
+         level_0 = 8, 4
+         // 所有细网格层都使用level_0的最小网格片尺寸.
+       }
+      //use_new_alg 	      = FALSE
+      //extend_tags_to_bdry     = TRUE
+      efficiency_tolerance    = 0.70e0   // 聚类效率.
+      combine_efficiency      = 0.85e0   // 合并效率. 
+    }
+
+}

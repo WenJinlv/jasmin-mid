@@ -1,0 +1,62 @@
+/***************************************************************************
+*                                                                          *
+* 演示非协调拼接构件使用方法的示例程序                                   *
+*                                                                          *
+***************************************************************************/
+
+/*!
+  @mainpage  演示非协调拼接构件使用方法的示例程序
+
+  源代码请参考:
+  - main()                     主程序
+  - DynamicLevelIntegrator     网格层积分算法
+  - Dynamic                    网格片积分算法
+
+  运行请参考: @ref package_Dynamic_readme
+  
+*/
+
+/*!
+ @page package_Dynamic_readme  Dynamic程序README
+
+\verbatim
+
+
+1. 编译和运行
+
+编译:
+    make    (产生可执行文件main2d)
+
+运行: 
+
+    main2d <input file>                     ... 串行运行   (不使用 MPI)
+    mpirun -np <nprocs> main2d <input file> ... 并行运行   (使用 MPI)
+
+    例如:
+        main2d input/2block_rotation_nonconform.input
+        mpirun -np 2 main2d input/2block_rotation_nonconform.input
+
+重启动运行:
+
+    在正常运行命令的尾部添加: <restart dir> <restore num>
+        <restart dir> 存放重启动文件的目录.
+        <restore num> 重启动文件的序列号(一般为输出该文件的时间步).
+     
+    例如:  (从第5个时间步重启动)
+        
+        main2d input/2block_rotation_nonconform.input restart 5
+        mpirun -np 2 main2d input/2block_rotation_nonconform.input restart 5
+
+    注意: 重启动前后所使用的进程数必须一致. 
+
+2. 输入文件
+
+    目前, input目录下提供若干输入文件示例，分别用于计算以下模型:
+
+    2block_horizontal_nonconform.input: 包含1条垂直于Y轴的非协调块边界.
+    2block_rotation_nonconform.input:   包含1条垂直于Y轴的非协调块边界, 且相对于第1个网格块, 第2个网格快的索引有旋转.
+    2block_vertical_nonconform.input:   包含1条垂直于X轴的非协调块边界.
+    3block_horizontal_nonconform.input: 包含2条垂直于Y轴的非协调块边界.
+\endverbatim
+
+*/

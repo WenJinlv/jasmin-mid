@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="JASMIN 开发小组">
+  <meta name="author" content="北京应用物理与计算数学研究所">
+  <meta name="dcterms.date" content="2013-09-10">
+  <title>JASMIN 精简版使用必读</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; }
+code > span.dt { color: #204a87; }
+code > span.dv { color: #0000cf; }
+code > span.bn { color: #0000cf; }
+code > span.fl { color: #0000cf; }
+code > span.ch { color: #4e9a06; }
+code > span.st { color: #4e9a06; }
+code > span.co { color: #8f5902; font-style: italic; }
+code > span.ot { color: #8f5902; }
+code > span.al { color: #ef2929; }
+code > span.fu { color: #000000; }
+code > span.er { font-weight: bold; }
+  </style>
+</head>
+<body>
+<header>
+<h1 class="title">JASMIN 精简版使用必读</h1>
+<h2 class="author">JASMIN 开发小组</h2>
+<h2 class="author">北京应用物理与计算数学研究所</h2>
+<h3 class="date">2013-09-10</h3>
+</header>
+<nav id="TOC">
+<ul>
+<li><a href="#jasmin-精简版">JASMIN 精简版</a><ul>
+<li><a href="#功能特性">功能特性</a></li>
+<li><a href="#编译安装">编译安装</a></li>
+<li><a href="#使用方法">使用方法</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="jasmin-精简版"><a href="#jasmin-精简版">JASMIN 精简版</a></h1>
+<p>JASMIN-Lite 是 JASMIN 框架的单层单块网格精简版本。它保留了 JASMIN 框架的基础架 构，移除了多块、自适应、联邦、克隆、扫描和解法器功能。</p>
+<h2 id="功能特性"><a href="#功能特性">功能特性</a></h2>
+<p>JASMIN-Lite 基于 MPI+OpenMP 混合编程模型，支持大规模科学工程计算应用。 JASMIN-Lite 实现了如下的特性：</p>
+<ol type="1">
+<li><p>支持结构网格构件化编程</p>
+<p>JASMIN-Lite 将结构网格计算中共性的并行技术抽象成 <code>积分构件</code>，用户只需要实 现构件要求的串行策略函数，组合使用构件实现并行结构网格计算。JASMIM-Lite 包 含的构件有：</p>
+<ul>
+<li>NumericalIntegratorComponent：数值构件</li>
+<li>ReductionIntegratorComponent：规约构件</li>
+<li>InitializeIntegratorComponent：初值构件</li>
+<li>DtIntegratorComponent：步长构件</li>
+<li>MemoryIntegratorComponent：内存构件</li>
+<li>CopyIntegratorComponent：复制构件</li>
+<li>OuterdataOperationIntegratorComponent: 外表面数据操作构件</li>
+<li>ParticleCommComponent：粒子量通信构件</li>
+<li>RemappingIntegratorComponent：重分重映构件</li>
+<li>LocalNumericalIntegratorComponent：局部数值构件</li>
+<li>LocalReductionIntegratorComponent：局部规约构件</li>
+<li>StencilNumericalIntegratorComponent：Stencil 模板数值构件</li>
+</ul></li>
+<li><p>支持多种结构网格应用开发</p>
+<p>JASMIN-Lite 支持如下应用：</p>
+<ul>
+<li>单块均匀矩形网格应用</li>
+<li>单块变形网格应用和网格重分重映</li>
+<li>PIC方法和粒子模拟应用</li>
+</ul></li>
+<li><p>支持动态负载平衡</p></li>
+</ol>
+<h2 id="编译安装"><a href="#编译安装">编译安装</a></h2>
+<p>从源代码编译 JASMIN-Lite 需要系统已经安装好如下软件包：</p>
+<ol type="1">
+<li>MPI &amp; OpenMP：建议安装 mpich2 或 openmpi；建议 gcc 版本 4.4 以上；编译器 必须支持OpenMP 3.0 标准。</li>
+<li>HDF5 1.6 版本</li>
+<li>FFTW 3.0 以上版本</li>
+<li>BOOST 1.44 以上版本</li>
+</ol>
+<p>在 Linux 环境中，通过如下的命令编译安装 JASMIN-Lite：</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">mkdir</span> build <span class="kw">&amp;&amp;</span> <span class="kw">cd</span> build
+<span class="kw">cp</span> <span class="ot">$SOURCE</span>/tools/config-linux-optg.sh .
+<span class="co"># 修改 config-linux-optg.sh 中的文件路径</span>
+<span class="kw">./config-linux-optg.sh</span>
+<span class="kw">make</span> <span class="kw">&amp;&amp;</span> <span class="kw">make</span> install</code></pre>
+<h2 id="使用方法"><a href="#使用方法">使用方法</a></h2>
+<p>使用方法参见安装目录中 <code>examples/*</code>。</p>
+</body>
+</html>

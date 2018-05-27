@@ -1,0 +1,146 @@
+//
+// 文件名:    step-2d.input
+// 软件包:    JASMIN application
+// 版权  :    (c) 2004-2010 北京应用物理与计算数学研究所
+// 版本号:    $Revision: 170 $
+// 修改  :    $Date: 2007-06-27 08:44:22 $
+// 描述  :    Input file for JASMIN Euler example problem (2d step)
+//
+
+Euler {
+   gamma            = 1.4      // gamma = Ratio of specific heats
+
+   godunov_order    = 4        // order of Goduov slopes (1, 2, or 4)
+
+   riemann_solve        = "APPROX_RIEM_SOLVE"
+//   riemann_solve        = "EXACT_RIEM_SOLVE"
+//   riemann_solve        = "HLLC_RIEM_SOLVE"
+
+   data_problem         = "STEP"
+
+   Initial_data {
+      front_position = 0.0
+      interval_0 {
+         density         = 1.4
+         velocity        = 3.0 , 0.0
+         pressure        = 1.0
+      }
+      interval_1 {
+         density         = 1.4
+         velocity        = 3.0 , 0.0
+         pressure        = 1.0
+      }
+   }
+
+   Refinement_data {
+      refine_criteria = "PRESSURE_GRADIENT"
+ 
+      PRESSURE_GRADIENT {
+         grad_tol = 20.0
+      }
+   }
+
+   // valid boundary_condition values are "FLOW", "REFLECT", "DIRICHLET"
+   Boundarydata {
+      boundary_edge_xlo {
+         boundary_condition      = "FLOW"
+      }
+      boundary_edge_xhi {
+         boundary_condition      = "REFLECT"
+      }
+      boundary_edge_ylo {
+         boundary_condition      = "REFLECT"
+      }
+      boundary_edge_yhi {
+         boundary_condition      = "REFLECT"
+      }
+
+      boundary_node_xlo_ylo {
+         boundary_condition      = "YREFLECT"
+      }
+      boundary_node_xhi_ylo {
+         boundary_condition      = "YREFLECT"
+      }
+      boundary_node_xlo_yhi {
+         boundary_condition      = "YREFLECT"
+      }
+      boundary_node_xhi_yhi {
+         boundary_condition      = "YREFLECT"
+      }
+   }
+}
+
+Main {
+// log file parameters 
+   log_file_name = "Euler-step_2d.log"
+   log_all_nodes    = FALSE
+
+// visualization dump parameters 
+   javis_dump_interval     = 10          // zero to turn off
+   javis_dump_dirname      = "javis_step2d"
+   javis_number_procs_per_file = 1   
+
+// restart dump parameters
+   restart_interval       = 1000         // zero to turn off
+   restart_write_dirname  = "restart_step2d"
+}
+
+TimerManager{
+      // output exclusive time 
+   timer_list           = "apps::main::*",
+                          "algs::HierarchyTimeIntegrator::*"
+
+}
+
+GridGeometry {
+   domain_boxes = [ (0,0) , (9,19) ],
+                  [ (10,4) , (49,19) ]
+   x_lo         = 0.e0 , 0.e0   // lower end of computational domain.
+   x_up         = 2.5e0 , 1.e0  // upper end of computational domain.
+}
+
+
+EulerLevelIntegrator {
+   cfl                      = 0.9e0    // max cfl factor used in problem
+
+}
+
+HierarchyTimeIntegrator {
+   start_time            = 0.e0     // initial simulation time
+   end_time              = 20.e0    // final simulation time
+   max_integrator_steps  = 401      // max number of simulation timesteps
+   max_dt              = 1.e-1       // 最大时间步步长.
+   grow_dt             = 1.2         // 连续两个时间步长的最大放大倍数.
+   regrid_interval     = 2           // 网格层重构间隔.
+   regrid_tag_buffer   = 2           // 网格层标记缓冲区大小.
+
+   use_nonuniform_workload  = FALSE
+   load_balancing_threshold = 0.95
+   print_balance_efficiency = FALSE
+
+StandardTagAndInitialize{
+   tagging_method = "ERROR_DETECTOR"
+   }
+
+GriddingAlgorithm {
+   
+   max_levels          = 3       // Maximum number of levels in hierarchy.
+
+   ratio_to_coarser {              // vector ratio to next coarser level
+      level_1            = 4 , 4
+      level_2            = 4 , 4
+      level_3            = 4 , 4
+   }
+
+   largest_patch_size {
+      level_0 = 32 , 32
+      // all finer levels will use same values as level_0...
+   }
+
+   smallest_patch_size {
+      level_0 = 8 , 8
+      // all finer levels will use same values as level_0...
+   }
+
+  }
+}

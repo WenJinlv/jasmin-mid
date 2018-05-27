@@ -1,0 +1,68 @@
+/***************************************************************************
+*                                                                          *
+* 演示JASMIN框架多块结构网格的非结构拼接功能. 
+*                                                                          *
+***************************************************************************/
+
+/*!
+  @mainpage  FederationMultiblockSingularityDemo程序
+
+  本程序演示如何处理多块网格非结构拼接的几何奇点.
+
+  简要说明请参考: @ref package_examples_FDMBSingDemo_readme
+  
+  源代码请参考:
+  - main()   主程序
+  - FDMBSingDemoLevelIntegrator 网格层时间积分算法
+  - FDMBSingDemo                网格片时间积分算法
+  - FDMBSingDemoFederationLevelIntegrator 联邦网格层时间积分算法
+  - FDMBSingDemoFederation 联邦网格片时间积分算法
+
+  返回 <a href="../../index.html">JASMIN示范程序首页</a>.
+*/
+
+/*!
+ @page package_examples_FDMBSingDemo_readme  MBSingDemo程序README
+
+\verbatim
+
+
+1. 问题模型: 在非结构拼接的多块结构网格上, 演示如何处理几何奇点.
+
+2. 编译和运行
+
+编译:  make <prog name>   其中 <prog name> = "main-2d" (二维情况)
+
+运行: 
+
+   main2d <input file>                     ... 串行运行   (不使用 MPI)
+   mpirun -np <nprocs> main2d <input file> ... 并行运行   (使用 MPI)
+
+   在目录:sample_input下面有输入文件示例.
+
+   例如:
+      main2d sample/mbsing_8blocks_fd.input
+      mpirun -np 2 main2d sample_input/mbsing_8blocks_fd.input
+
+重启动运行:
+
+   在正常运行命令的尾部添加: <restart dir> <restore num>
+         <restart dir> 存放重启动文件的目录.
+         <restore num> 重启动文件的序列号(一般为输出该文件的时间步).
+     
+   例如:  (从第5个时间步重启动)
+        
+        main2d sample_input/mbsing_8blocks_fd.input restart-2d 5
+        mpirun -np 2 main2d sample_input/mbsing_8blocks_fd.input restart-2d 5
+
+   注意:  由于当前并行I/O实现上的限制, 续算时使用的进程数必须和前次运行相同. 
+
+3. 输入文件
+
+   sample_input目录下有如下输入文件:
+
+      mbsing_8blocks_fd.input .......  半圆形.
+
+\endverbatim
+
+*/

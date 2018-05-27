@@ -1,0 +1,4 @@
+编译方法：
+	cd build ;
+    cmake .. ;
+    make main-3d ;

@@ -1,0 +1,147 @@
+// 
+// 文件名: two-points-CJ-model3d.input
+// 软件包: JASMIN application
+// 版权  : (c) 2004-2010 北京应用物理与计算数学研究所
+// 版本号: $Revision: 1.4 $
+// 修改  : $Date: 2007/05/24 03:04:00 $
+// 描述  : 两点起爆模型, 直角坐标系, Euler方法.
+//
+
+Euler {
+ 
+     gamma      =  2.878      // C-J比容.
+      
+     godunov_order    = 4       // order of Goduov slopes (1, 2, or 4)
+
+     riemann_solve    = "APPROX_RIEM_SOLVE"
+//   riemann_solve    = "EXACT_RIEM_SOLVE"
+//   riemann_solve    = "HLLC_RIEM_SOLVE"
+
+     corner_transport = "CORNER_TRANSPORT_1"
+//     corner_transport = "CORNER_TRANSPORT_2"
+     data_problem         = "CJ_EXPLORE"
+
+     Initial_data {
+
+      model_problem = "TWO_POINT_DETONATION" // 两点起爆模型
+
+      left_point  =  0.0,0.0,0.0    // 左起爆点坐标 cm  
+      right_point =  0.0,0.0,0.0    // 右起爆点坐标 cm
+
+     
+      detonation_model = "PBX-9404" // 炸药名
+   
+      CJ_gamma      =  2.878        // C-J比容.
+ 
+      DJ_density    =  1.842        // 起爆前炸药密度 g/cm3
+      CJ_velocity   =  8.8          // CJ爆速 cm/10us
+      
+      CJ_density    =  2.493574     // 起爆后炸药密度 g/cm3
+      CJ_pressure   =  37.27        // 起爆后压力 GPa
+
+      CJ_nb         =  2.5          // Wilkins爆轰波燃烧函数指数参数.
+      CJ_rb         =  4.5          // Wilkins爆轰波燃烧函数过渡区参数.
+
+   }
+
+   Refinement_data {
+        refine_criteria = "PRESSURE_GRADIENT"
+        
+        PRESSURE_GRADIENT {
+         grad_tol = 40.0,60.0,60.0
+        }
+  }
+}
+
+Main {
+// log file parameters 
+   log_file_name = "Euler-two_points_CJ_model3d_lower_resolution_vis.log"
+   log_all_nodes    = FALSE
+
+// visualization dump parameters
+
+   javis_dump_interval     = 10        // zero to turn off
+   javis_dump_dirname      = "viz_CartDetoEuler3d" // used by JaVis
+   javis_number_procs_per_file = 1
+
+// restart dump parameters
+   restart_interval       = 1000       // zero to turn off
+   restart_write_dirname  = "restart_CartDetoEuler3d"
+}
+
+TimerManager{
+      // output exclusive time
+   timer_list           = "apps::main::*",
+                          "algs::HierarchyTimeIntegrator::*"
+                             
+}
+
+GridGeometry{
+   domain_boxes	= [(0,0,0),(31,31,31)]
+
+   x_lo = -1.0 , -1.0 , -1.0  // lower end of computational domain.
+   x_up =  1.0 ,  1.0 ,  1.0  // upper end of computational domain.
+
+   periodic_dimension = 1,1,1
+
+}
+
+EulerLevelIntegrator {
+   cfl                      = 0.9e0    // max cfl factor used in problem
+
+}
+
+
+HierarchyTimeIntegrator {
+   start_time            = 0.e0     // initial simulation time
+   end_time              = 0.05e0    // final simulation time
+   max_integrator_steps  = 1000      // max number of simulation timesteps
+   max_dt              = 1.e-2       // 最大时间步步长.
+   grow_dt             = 1.2         // 连续两个时间步长的最大放大倍数.
+   regrid_interval     = 2           // 网格层重构间隔.
+   regrid_tag_buffer   = 2           // 网格层标记缓冲区大小.
+   tag_buffer           = 1,1,1
+
+   use_nonuniform_workload  = FALSE
+   load_balancing_threshold = 0.95
+   print_balance_efficiency = FALSE
+
+StandardTagAndInitialize{
+   tagging_method = "ERROR_DETECTOR"
+   }
+
+
+GriddingAlgorithm{
+   max_levels = 2         // Maximum number of levels in hierarchy.
+
+   ratio_to_coarser {      // vector ratio to next coarser level
+      level_1 = 4, 4 , 4
+      level_2 = 4, 4 , 4
+      level_3 = 4, 4 , 4
+      level_4 = 4, 4 , 4
+   }
+
+   largest_patch_size {
+      level_0 = 16 , 16 , 16
+      // all finer levels will use same values as level_0...
+   }
+
+   smallest_patch_size {
+      level_0 = 8 , 8 , 8
+      // all finer levels will use same values as level_1...
+   }
+
+}
+
+
+}
+
+
+javis{
+       patch_optimized   =  TRUE 
+       plot_domain       =  [(0,0,0),(15,15,15)],[(16,16,16),(31,31,31)]
+       //resolution        = 2,2,2
+
+}
+
+

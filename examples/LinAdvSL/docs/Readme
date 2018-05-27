@@ -1,0 +1,95 @@
+  描述  :  LinAdvSL程序文档
+
+  本程序应用JASMIN框架，在单层均匀矩形结构网格上, 
+  采用显式迎风格式, 求解线性对流方程.
+
+  数学方案请参考: @ref package_examples_LinAdvSL_math
+
+  源代码请参考:
+  - main()                   主程序
+  - LinAdvLevelIntegrator    网格层积分算法
+  - LinAdv                   网格片积分算法
+
+  LinAdvSL程序数学方案（公式采用tex格式）
+
+   线性对流方程:
+   @f$
+       \frac{\partial u(\vec{x},t)}{\partial t} 
+     + \nabla \cdot (\vec{a} \cdot u(\vec{x},t)) = 0, \quad \vec{x} \in \Omega 
+   @f$
+   (其中, 对流速度 \f$ \vec{a}>=0 \f$, 为常量)
+
+   初始条件:
+   @f$
+       u(\vec{x},0) = u_0(\vec{x}), \quad \vec{x} \in \Omega
+   @f$
+
+   边界条件:
+   @f$
+       u(\vec{x},t) = u_{\Gamma}(t), \quad \vec{x} \in \Gamma_{\Omega}
+   @f$
+
+   离散格式: 时间离散采用显式格式, 空间离散采用一阶迎风格式.
+   以二维为例, 守恒量\f$ u_{i,j}^n \f$定义在单元中心, 
+   通量\f$ \vec{f}_{i-1/2,j}^n \f$定义在网格面心,
+   于是：
+   @f$ f_{i-1/2,j,0}^{n+1} = \Delta t \cdot a_0 \cdot u_{i-1,j}^n, @f$
+
+   @f$ f_{i,j-1/2,1}^{n+1} = \Delta t \cdot a_1 \cdot u_{i,j-1}^n, @f$
+
+   @f$ u_{i,j}^{n+1} = u_{i,j}^n + (f_{i-1/2,j,0}^{n+1} - f_{i+1/2,j,0}^{n+1})/\Delta x_0
+                                 + (f_{i,j-1/2,1}^{n+1} - f_{i,j+1/2,1}^{n+1})/\Delta x_1
+   @f$
+       
+   时间步长: 
+   @f$
+       \Delta t = c \cdot min(\Delta x_i/a_i), \quad 0<c<1
+   @f$
+
+   注： 简单起见, 程序实际实现时, @f$ a_1 @f$ 和@f$ a_2 @f$(三维情形)总设为0, 
+        @f$ a_0 @f$则从输入文件中读入.
+
+
+1. 编译和运行
+
+编译:  cmake source
+       make
+       生成可执行文件 "main2d" (二维情况)， "main3d" (三维情况)
+
+运行: 
+
+   main2d <input file>                     ... 串行运行   (不使用 MPI)
+   mpirun -np <nprocs> main2d <input file> ... 并行运行   (使用 MPI)
+
+   例如:
+      main2d sample_input/linadv-2d.input
+      mpirun -np 2 main2d sample_input/linadv-2d.input
+
+重启动运行:
+
+      在正常运行命令的尾部添加: <restart dir> <restore num>
+         <restart dir> 存放重启动文件的目录.
+         <restore num> 重启动文件的序列号(对应输出该文件的时间步序列号).
+     
+      例如: 从第5个时间步重启动
+        
+        main2d sample_input/linadv-2d.input restart_linadv-2d 5
+        mpirun -np 2 main2d sample_input/linadv-2d.input restart_linadv-2d 5
+
+      注意:  重启动前后所使用的进程数必须一致. 
+
+2. 输入文件
+
+   input目录下有如下输入文件:
+       linadv-2d.input      ... 二维线性对流对流模型.
+       linadv-3d.input      ... 三维线性对流对流模型.
+
+4. 性能指标
+    在log文件的结尾关键字"TIME STATISTICS"后，
+(1) 初始化时间
+    关键字：algs::SimpleHierarchyTimeIntegrator::initializeHierarchy().
+(2) 时间步进时间
+    关键字：algs::SimpleHierarchyTimeIntegrator::advanceHierarchy().
+(3) 数值计算时间
+    关键字：algs::NumericalComponent::computing().
+

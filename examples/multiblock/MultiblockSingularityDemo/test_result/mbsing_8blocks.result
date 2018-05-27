@@ -1,0 +1,653 @@
+DeformingGridInputUtilities2::setMultiblockGridGeometryInfo()
+
+	After this sweep, 7 neighbors are filled. 0 is waiting for filling.
+
+	Logical geometries output as follows. 
+	number of blocks = 8
+	block_0 {
+		domain_boxes = [(1,1),(10,10)],
+		singularities=
+			[(11,11),(11,11)], sing_type=2
+	 }
+	block_1 {
+		domain_boxes = [(1,1),(10,15)],
+		singularities=
+			[(11,0),(11,0)], sing_type=2
+	 }
+	block_2 {
+		domain_boxes = [(1,1),(5,10)],
+		singularities=
+			[(0,11),(0,11)], sing_type=2
+			[(6,11),(6,11)], sing_type=1
+	 }
+	block_3 {
+		domain_boxes = [(1,1),(14,15)],
+		singularities=
+			[(0,0),(0,0)], sing_type=2
+	 }
+	block_4 {
+		domain_boxes = [(1,1),(14,5)],
+		singularities=
+			[(0,0),(0,0)], sing_type=1
+			[(15,0),(15,0)], sing_type=1
+			[(0,6),(0,6)], sing_type=2
+	 }
+	block_5 {
+		domain_boxes = [(1,1),(14,10)],
+		singularities=
+			[(0,11),(0,11)], sing_type=1
+			[(15,11),(15,11)], sing_type=1
+	 }
+	block_6 {
+		domain_boxes = [(1,1),(5,10)],
+		singularities=
+			[(0,11),(0,11)], sing_type=1
+	 }
+	block_7 {
+		domain_boxes = [(1,1),(10,15)],
+	 }
+	number of neighbors = 18
+	neighbor_0 {
+	   block_a=0
+	   block_b=1
+	   rotation_b_to_a=I_UP,J_UP
+	   shifts_b_to_a=(0,10)
+	   neighbor_type=0
+	 }
+	neighbor_1 {
+	   block_a=0
+	   block_b=2
+	   rotation_b_to_a=I_UP,J_UP
+	   shifts_b_to_a=(10,0)
+	   neighbor_type=0
+	 }
+	neighbor_2 {
+	   block_a=0
+	   block_b=3
+	   rotation_b_to_a=I_UP,J_UP
+	   shifts_b_to_a=(10,10)
+	   neighbor_type=2
+	 }
+	neighbor_3 {
+	   block_a=0
+	   block_b=4
+	   rotation_b_to_a=J_DOWN,I_UP
+	   shifts_b_to_a=(17,10)
+	   neighbor_type=2
+	 }
+	neighbor_4 {
+	   block_a=1
+	   block_b=2
+	   rotation_b_to_a=I_UP,J_UP
+	   shifts_b_to_a=(10,-10)
+	   neighbor_type=2
+	 }
+	neighbor_5 {
+	   block_a=1
+	   block_b=3
+	   rotation_b_to_a=I_UP,J_UP
+	   shifts_b_to_a=(10,0)
+	   neighbor_type=0
+	 }
+	neighbor_6 {
+	   block_a=1
+	   block_b=4
+	   rotation_b_to_a=I_UP,J_UP
+	   shifts_b_to_a=(10,-5)
+	   neighbor_type=2
+	 }
+	neighbor_7 {
+	   block_a=2
+	   block_b=3
+	   rotation_b_to_a=J_DOWN,I_UP
+	   shifts_b_to_a=(2,10)
+	   neighbor_type=2
+	 }
+	neighbor_8 {
+	   block_a=2
+	   block_b=4
+	   rotation_b_to_a=J_DOWN,I_UP
+	   shifts_b_to_a=(7,10)
+	   neighbor_type=0
+	 }
+	neighbor_9 {
+	   block_a=2
+	   block_b=5
+	   rotation_b_to_a=I_UP,J_UP
+	   shifts_b_to_a=(5,0)
+	   neighbor_type=0
+	 }
+	neighbor_10 {
+	   block_a=3
+	   block_b=4
+	   rotation_b_to_a=I_UP,J_UP
+	   shifts_b_to_a=(0,-5)
+	   neighbor_type=0
+	 }
+	neighbor_11 {
+	   block_a=3
+	   block_b=6
+	   rotation_b_to_a=J_DOWN,I_UP
+	   shifts_b_to_a=(26,-5)
+	   neighbor_type=0
+	 }
+	neighbor_12 {
+	   block_a=3
+	   block_b=7
+	   rotation_b_to_a=I_UP,J_UP
+	   shifts_b_to_a=(14,0)
+	   neighbor_type=0
+	 }
+	neighbor_13 {
+	   block_a=4
+	   block_b=5
+	   rotation_b_to_a=I_UP,J_UP
+	   shifts_b_to_a=(0,-10)
+	   neighbor_type=0
+	 }
+	neighbor_14 {
+	   block_a=4
+	   block_b=6
+	   rotation_b_to_a=J_DOWN,I_UP
+	   shifts_b_to_a=(26,0)
+	   neighbor_type=0
+	 }
+	neighbor_15 {
+	   block_a=4
+	   block_b=7
+	   rotation_b_to_a=I_UP,J_UP
+	   shifts_b_to_a=(14,5)
+	   neighbor_type=0
+	 }
+	neighbor_16 {
+	   block_a=5
+	   block_b=6
+	   rotation_b_to_a=I_UP,J_UP
+	   shifts_b_to_a=(14,0)
+	   neighbor_type=0
+	 }
+	neighbor_17 {
+	   block_a=6
+	   block_b=7
+	   rotation_b_to_a=J_UP,I_DOWN
+	   shifts_b_to_a=(5,12)
+	   neighbor_type=0
+	 }
+
+MultiblockDeformingGridGeometry<DIM>::setMultiblockGridGeometryData()
+  register neighbors :
+   neighbor_0 : 
+	block_0: block_1,shift=(0,10),rotation=0,domain[0]=[(1,11),(10,25)]
+	block_1: block_0,shift=(0,-10),rotation=0,domain[0]=[(1,-9),(10,0)]
+   neighbor_1 : 
+	block_0: block_2,shift=(10,0),rotation=0,domain[0]=[(11,1),(15,10)]
+	block_2: block_0,shift=(-10,0),rotation=0,domain[0]=[(-9,1),(0,10)]
+   neighbor_2 : 
+	block_0: block_3,shift=(10,10),rotation=0,domain[0]=[(11,11),(24,25)]
+	block_3: block_0,shift=(-10,-10),rotation=0,domain[0]=[(-9,-9),(0,0)]
+   neighbor_3 : 
+	block_0: block_4,shift=(17,10),rotation=3,domain[0]=[(11,11),(15,24)]
+	block_4: block_0,shift=(-10,17),rotation=1,domain[0]=[(-9,6),(0,15)]
+   neighbor_4 : 
+	block_1: block_2,shift=(10,-10),rotation=0,domain[0]=[(11,-9),(15,0)]
+	block_2: block_1,shift=(-10,10),rotation=0,domain[0]=[(-9,11),(0,25)]
+   neighbor_5 : 
+	block_1: block_3,shift=(10,0),rotation=0,domain[0]=[(11,1),(24,15)]
+	block_3: block_1,shift=(-10,0),rotation=0,domain[0]=[(-9,1),(0,15)]
+   neighbor_6 : 
+	block_1: block_4,shift=(10,-5),rotation=0,domain[0]=[(11,-4),(24,0)]
+	block_4: block_1,shift=(-10,5),rotation=0,domain[0]=[(-9,6),(0,20)]
+   neighbor_7 : 
+	block_2: block_3,shift=(2,10),rotation=3,domain[0]=[(-14,11),(0,24)]
+	block_3: block_2,shift=(-10,2),rotation=1,domain[0]=[(-9,-4),(0,0)]
+   neighbor_8 : 
+	block_2: block_4,shift=(7,10),rotation=3,domain[0]=[(1,11),(5,24)]
+	block_4: block_2,shift=(-10,7),rotation=1,domain[0]=[(-9,1),(0,5)]
+   neighbor_9 : 
+	block_2: block_5,shift=(5,0),rotation=0,domain[0]=[(6,1),(19,10)]
+	block_5: block_2,shift=(-5,0),rotation=0,domain[0]=[(-4,1),(0,10)]
+   neighbor_10 : 
+	block_3: block_4,shift=(0,-5),rotation=0,domain[0]=[(1,-4),(14,0)]
+	block_4: block_3,shift=(0,5),rotation=0,domain[0]=[(1,6),(14,20)]
+   neighbor_11 : 
+	block_3: block_6,shift=(26,-5),rotation=3,domain[0]=[(15,-4),(24,0)]
+	block_6: block_3,shift=(5,26),rotation=1,domain[0]=[(6,11),(20,24)]
+   neighbor_12 : 
+	block_3: block_7,shift=(14,0),rotation=0,domain[0]=[(15,1),(24,15)]
+	block_7: block_3,shift=(-14,0),rotation=0,domain[0]=[(-13,1),(0,15)]
+   neighbor_13 : 
+	block_4: block_5,shift=(0,-10),rotation=0,domain[0]=[(1,-9),(14,0)]
+	block_5: block_4,shift=(0,10),rotation=0,domain[0]=[(1,11),(14,15)]
+   neighbor_14 : 
+	block_4: block_6,shift=(26,0),rotation=3,domain[0]=[(15,1),(24,5)]
+	block_6: block_4,shift=(0,26),rotation=1,domain[0]=[(1,11),(5,24)]
+   neighbor_15 : 
+	block_4: block_7,shift=(14,5),rotation=0,domain[0]=[(15,6),(24,20)]
+	block_7: block_4,shift=(-14,-5),rotation=0,domain[0]=[(-13,-4),(0,0)]
+   neighbor_16 : 
+	block_5: block_6,shift=(14,0),rotation=0,domain[0]=[(15,1),(19,10)]
+	block_6: block_5,shift=(-14,0),rotation=0,domain[0]=[(-13,1),(0,10)]
+   neighbor_17 : 
+	block_6: block_7,shift=(5,12),rotation=1,domain[0]=[(6,1),(20,10)]
+	block_7: block_6,shift=(12,-5),rotation=3,domain[0]=[(1,-4),(10,0)]
+
+MultiblockDeformingGridGeometry<DIM>::setMultiblockGridGeometryData()
+  register singularities :
+  block_0 : 
+	 singular_box array list = 
+		box_0=[(11,11),(11,11)]
+			codim=2, loc=3, sing_type=2
+			sing_neighbors= 3 1 0 2 4
+	 is reduced_connect ? 0
+  block_1 : 
+	 singular_box array list = 
+		box_0=[(11,0),(11,0)]
+			codim=2, loc=1, sing_type=2
+			sing_neighbors= 3 1 0 2 4
+	 is reduced_connect ? 0
+  block_2 : 
+	 singular_box array list = 
+		box_0=[(0,11),(0,11)]
+			codim=2, loc=2, sing_type=2
+			sing_neighbors= 3 1 0 2 4
+		box_1=[(6,11),(6,11)]
+			codim=2, loc=3, sing_type=1
+			sing_neighbors= 4 2 5
+	 is reduced_connect ? 1
+  block_3 : 
+	 singular_box array list = 
+		box_0=[(0,0),(0,0)]
+			codim=2, loc=0, sing_type=2
+			sing_neighbors= 3 1 0 2 4
+	 is reduced_connect ? 0
+  block_4 : 
+	 singular_box array list = 
+		box_0=[(0,0),(0,0)]
+			codim=2, loc=0, sing_type=1
+			sing_neighbors= 4 2 5
+		box_1=[(15,0),(15,0)]
+			codim=2, loc=1, sing_type=1
+			sing_neighbors= 4 5 6
+		box_2=[(0,6),(0,6)]
+			codim=2, loc=2, sing_type=2
+			sing_neighbors= 3 1 0 2 4
+	 is reduced_connect ? 1
+  block_5 : 
+	 singular_box array list = 
+		box_0=[(0,11),(0,11)]
+			codim=2, loc=2, sing_type=1
+			sing_neighbors= 4 2 5
+		box_1=[(15,11),(15,11)]
+			codim=2, loc=3, sing_type=1
+			sing_neighbors= 4 5 6
+	 is reduced_connect ? 1
+  block_6 : 
+	 singular_box array list = 
+		box_0=[(0,11),(0,11)]
+			codim=2, loc=2, sing_type=1
+			sing_neighbors= 4 5 6
+	 is reduced_connect ? 1
+  block_7 : 
+	 no singularity exists.
+
+MultiblockDeformingGridGeometry<DIM>::setMultiblockGridGeometryData()
+  register boundary conditions :
+
+DeformingGridGeometry_for_block_0:
+GridGeometry<DIM>::initializePhysicalBoundaryConditions:
+	d_bdry_condition[0] = [(0,0),(0,10)], 1
+	d_bdry_condition[1] = [(1,0),(10,0)], 2
+	d_bdry_condition[2] = [(11,0),(15,0)], 1
+	d_bdry_condition[3] = [(0,11),(0,25)], 2
+	Check completement for boundary conditions ...... passed.
+
+DeformingGridGeometry_for_block_1:
+GridGeometry<DIM>::initializePhysicalBoundaryConditions:
+	d_bdry_condition[0] = [(0,1),(0,15)], 2
+	d_bdry_condition[1] = [(0,16),(0,16)], 1
+	d_bdry_condition[2] = [(1,16),(24,16)], 3
+	d_bdry_condition[3] = [(0,-10),(0,0)], 1
+	Check completement for boundary conditions ...... passed.
+
+DeformingGridGeometry_for_block_2:
+GridGeometry<DIM>::initializePhysicalBoundaryConditions:
+	d_bdry_condition[0] = [(1,0),(19,0)], 1
+	d_bdry_condition[1] = [(-9,0),(0,0)], 2
+	Check completement for boundary conditions ...... passed.
+
+DeformingGridGeometry_for_block_3:
+GridGeometry<DIM>::initializePhysicalBoundaryConditions:
+	d_bdry_condition[0] = [(-9,16),(24,16)], 3
+	Check completement for boundary conditions ...... passed.
+
+DeformingGridGeometry_for_block_4:
+GridGeometry<DIM>::initializePhysicalBoundaryConditions:
+	Check completement for boundary conditions ...... passed.
+
+DeformingGridGeometry_for_block_5:
+GridGeometry<DIM>::initializePhysicalBoundaryConditions:
+	d_bdry_condition[0] = [(-4,0),(19,0)], 1
+	Check completement for boundary conditions ...... passed.
+
+DeformingGridGeometry_for_block_6:
+GridGeometry<DIM>::initializePhysicalBoundaryConditions:
+	d_bdry_condition[0] = [(-13,0),(21,0)], 1
+	Check completement for boundary conditions ...... passed.
+
+DeformingGridGeometry_for_block_7:
+GridGeometry<DIM>::initializePhysicalBoundaryConditions:
+	d_bdry_condition[0] = [(11,-4),(11,16)], 1
+	d_bdry_condition[1] = [(-13,16),(10,16)], 3
+	Check completement for boundary conditions ...... passed.
+++++++++++++++++++++++++++++++++++++++++++++
+At begining of timestep # 0
+Simulation time is 0
+++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+intc=SUMMING,setPhysicalBoundaryConditions:
+block_0, patch_box = [(1,1),(10,10)]
+	fill_box=[(0,1),(0,10)], type=1, loc=0, condition=1
+	fill_box=[(0,11),(0,11)], type=1, loc=0, condition=2
+	fill_box=[(1,0),(10,0)], type=1, loc=2, condition=2
+	fill_box=[(11,0),(11,0)], type=1, loc=2, condition=1
+	fill_box=[(0,0),(0,0)], type=2, loc=0, condition=1
+
+intc=SUMMING,setPhysicalBoundaryConditions:
+block_1, patch_box = [(1,1),(10,15)]
+	fill_box=[(0,1),(0,15)], type=1, loc=0, condition=2
+	fill_box=[(0,0),(0,0)], type=1, loc=0, condition=1
+	fill_box=[(1,16),(11,16)], type=1, loc=3, condition=3
+	fill_box=[(0,16),(0,16)], type=2, loc=2, condition=1
+
+intc=SUMMING,setPhysicalBoundaryConditions:
+block_2, patch_box = [(1,1),(5,10)]
+	fill_box=[(1,0),(6,0)], type=1, loc=2, condition=1
+	fill_box=[(0,0),(0,0)], type=1, loc=2, condition=2
+
+intc=SUMMING,setPhysicalBoundaryConditions:
+block_3, patch_box = [(1,1),(14,15)]
+	fill_box=[(0,16),(15,16)], type=1, loc=3, condition=3
+
+intc=SUMMING,setPhysicalBoundaryConditions:
+block_5, patch_box = [(1,1),(14,10)]
+	fill_box=[(0,0),(15,0)], type=1, loc=2, condition=1
+
+intc=SUMMING,setPhysicalBoundaryConditions:
+block_6, patch_box = [(1,1),(5,10)]
+	fill_box=[(0,0),(6,0)], type=1, loc=2, condition=1
+
+intc=SUMMING,setPhysicalBoundaryConditions:
+block_7, patch_box = [(1,1),(10,15)]
+	fill_box=[(11,0),(11,15)], type=1, loc=1, condition=1
+	fill_box=[(0,16),(10,16)], type=1, loc=3, condition=3
+	fill_box=[(11,16),(11,16)], type=2, loc=3, condition=1
+
+intc=SUMMING,computeOnPatch:
+block_0, patch_box = [(1,1),(10,10)]
+	block_regular_fill_box=[(11,1),(11,10)], type=1, loc=1
+	block_regular_fill_box=[(1,11),(10,11)], type=1, loc=3
+	block_internal_fill_box=[(11,11),(11,11)], type=2, loc=3
+	    sing_patches = [(11,11),(12,12)] fbox=[(11,11),(11,11)] from block_3
+	    sing_patches = [(9,11),(10,12)] fbox=[(9,11),(10,11)] from block_1
+	    sing_patches = [(9,9),(10,10)] fbox=[(9,9),(10,10)] from block_0
+	    sing_patches = [(11,9),(12,10)] fbox=[(11,9),(11,10)] from block_2
+	    sing_patches = [(11,11),(12,12)] fbox=[(11,11),(11,11)] from block_4
+
+intc=SUMMING,computeOnPatch:
+block_1, patch_box = [(1,1),(10,15)]
+	block_regular_fill_box=[(11,1),(11,15)], type=1, loc=1
+	block_regular_fill_box=[(1,0),(10,0)], type=1, loc=2
+	block_internal_fill_box=[(11,0),(11,0)], type=2, loc=1
+	    sing_patches = [(11,1),(12,2)] fbox=[(11,1),(11,2)] from block_3
+	    sing_patches = [(9,1),(10,2)] fbox=[(9,1),(10,2)] from block_1
+	    sing_patches = [(9,-1),(10,0)] fbox=[(9,0),(10,0)] from block_0
+	    sing_patches = [(11,-1),(12,0)] fbox=[(11,0),(11,0)] from block_2
+	    sing_patches = [(11,-1),(12,0)] fbox=[(11,0),(11,0)] from block_4
+
+intc=SUMMING,computeOnPatch:
+block_2, patch_box = [(1,1),(5,10)]
+	block_regular_fill_box=[(0,1),(0,10)], type=1, loc=0
+	block_regular_fill_box=[(6,1),(6,10)], type=1, loc=1
+	block_regular_fill_box=[(1,11),(5,11)], type=1, loc=3
+	block_internal_fill_box=[(0,11),(0,11)], type=2, loc=2
+	    sing_patches = [(-1,11),(0,12)] fbox=[(0,11),(0,11)] from block_3
+	    sing_patches = [(-1,11),(0,12)] fbox=[(0,11),(0,11)] from block_1
+	    sing_patches = [(-1,9),(0,10)] fbox=[(0,9),(0,10)] from block_0
+	    sing_patches = [(1,9),(2,10)] fbox=[(1,9),(2,10)] from block_2
+	    sing_patches = [(1,11),(2,12)] fbox=[(1,11),(2,11)] from block_4
+	block_internal_fill_box=[(6,11),(6,11)], type=2, loc=3
+	    sing_patches = [(4,11),(5,12)] fbox=[(4,11),(5,11)] from block_4
+	    sing_patches = [(4,9),(5,10)] fbox=[(4,9),(5,10)] from block_2
+	    sing_patches = [(6,9),(7,10)] fbox=[(6,9),(6,10)] from block_5
+
+intc=SUMMING,computeOnPatch:
+block_3, patch_box = [(1,1),(14,15)]
+	block_regular_fill_box=[(0,1),(0,15)], type=1, loc=0
+	block_regular_fill_box=[(15,1),(15,15)], type=1, loc=1
+	block_regular_fill_box=[(1,0),(14,0)], type=1, loc=2
+	block_regular_fill_box=[(15,0),(15,0)], type=2, loc=1
+	block_internal_fill_box=[(0,0),(0,0)], type=2, loc=0
+	    sing_patches = [(1,1),(2,2)] fbox=[(1,1),(2,2)] from block_3
+	    sing_patches = [(-1,1),(0,2)] fbox=[(0,1),(0,2)] from block_1
+	    sing_patches = [(-1,-1),(0,0)] fbox=[(0,0),(0,0)] from block_0
+	    sing_patches = [(-1,-1),(0,0)] fbox=[(0,0),(0,0)] from block_2
+	    sing_patches = [(1,-1),(2,0)] fbox=[(1,0),(2,0)] from block_4
+
+intc=SUMMING,computeOnPatch:
+block_4, patch_box = [(1,1),(14,5)]
+	block_regular_fill_box=[(0,1),(0,5)], type=1, loc=0
+	block_regular_fill_box=[(15,1),(15,5)], type=1, loc=1
+	block_regular_fill_box=[(1,0),(14,0)], type=1, loc=2
+	block_regular_fill_box=[(1,6),(14,6)], type=1, loc=3
+	block_regular_fill_box=[(15,6),(15,6)], type=2, loc=3
+	block_internal_fill_box=[(0,0),(0,0)], type=2, loc=0
+	    sing_patches = [(1,1),(2,2)] fbox=[(1,1),(2,2)] from block_4
+	    sing_patches = [(-1,1),(0,2)] fbox=[(0,1),(0,2)] from block_2
+	    sing_patches = [(1,-1),(2,0)] fbox=[(1,0),(2,0)] from block_5
+	block_internal_fill_box=[(15,0),(15,0)], type=2, loc=1
+	    sing_patches = [(13,1),(14,2)] fbox=[(13,1),(14,2)] from block_4
+	    sing_patches = [(13,-1),(14,0)] fbox=[(13,0),(14,0)] from block_5
+	    sing_patches = [(15,1),(16,2)] fbox=[(15,1),(15,2)] from block_6
+	block_internal_fill_box=[(0,6),(0,6)], type=2, loc=2
+	    sing_patches = [(1,6),(2,7)] fbox=[(1,6),(2,6)] from block_3
+	    sing_patches = [(-1,6),(0,7)] fbox=[(0,6),(0,6)] from block_1
+	    sing_patches = [(-1,6),(0,7)] fbox=[(0,6),(0,6)] from block_0
+	    sing_patches = [(-1,4),(0,5)] fbox=[(0,4),(0,5)] from block_2
+	    sing_patches = [(1,4),(2,5)] fbox=[(1,4),(2,5)] from block_4
+
+intc=SUMMING,computeOnPatch:
+block_5, patch_box = [(1,1),(14,10)]
+	block_regular_fill_box=[(0,1),(0,10)], type=1, loc=0
+	block_regular_fill_box=[(15,1),(15,10)], type=1, loc=1
+	block_regular_fill_box=[(1,11),(14,11)], type=1, loc=3
+	block_internal_fill_box=[(0,11),(0,11)], type=2, loc=2
+	    sing_patches = [(1,11),(2,12)] fbox=[(1,11),(2,11)] from block_4
+	    sing_patches = [(-1,9),(0,10)] fbox=[(0,9),(0,10)] from block_2
+	    sing_patches = [(1,9),(2,10)] fbox=[(1,9),(2,10)] from block_5
+	block_internal_fill_box=[(15,11),(15,11)], type=2, loc=3
+	    sing_patches = [(13,11),(14,12)] fbox=[(13,11),(14,11)] from block_4
+	    sing_patches = [(13,9),(14,10)] fbox=[(13,9),(14,10)] from block_5
+	    sing_patches = [(15,9),(16,10)] fbox=[(15,9),(15,10)] from block_6
+
+intc=SUMMING,computeOnPatch:
+block_6, patch_box = [(1,1),(5,10)]
+	block_regular_fill_box=[(0,1),(0,10)], type=1, loc=0
+	block_regular_fill_box=[(6,1),(6,10)], type=1, loc=1
+	block_regular_fill_box=[(1,11),(5,11)], type=1, loc=3
+	block_regular_fill_box=[(6,11),(6,11)], type=2, loc=3
+	block_internal_fill_box=[(0,11),(0,11)], type=2, loc=2
+	    sing_patches = [(1,11),(2,12)] fbox=[(1,11),(2,11)] from block_4
+	    sing_patches = [(-1,9),(0,10)] fbox=[(0,9),(0,10)] from block_5
+	    sing_patches = [(1,9),(2,10)] fbox=[(1,9),(2,10)] from block_6
+
+intc=SUMMING,computeOnPatch:
+block_7, patch_box = [(1,1),(10,15)]
+	block_regular_fill_box=[(0,1),(0,15)], type=1, loc=0
+	block_regular_fill_box=[(1,0),(10,0)], type=1, loc=2
+	block_regular_fill_box=[(0,0),(0,0)], type=2, loc=0
+
+
+++++++++++++++++++++++++++++++++++++++++++++
+At end of timestep # 0
+Dt = 1, Simulation time is 1
+++++++++++++++++++++++++++++++++++++++++++++
+
+
+++++++++++++++++++++++++++++++++++++++++++++
+At begining of timestep # 1
+Simulation time is 1
+++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+intc=SUMMING,setPhysicalBoundaryConditions:
+block_0, patch_box = [(1,1),(10,10)]
+	fill_box=[(0,1),(0,10)], type=1, loc=0, condition=1
+	fill_box=[(0,11),(0,11)], type=1, loc=0, condition=2
+	fill_box=[(1,0),(10,0)], type=1, loc=2, condition=2
+	fill_box=[(11,0),(11,0)], type=1, loc=2, condition=1
+	fill_box=[(0,0),(0,0)], type=2, loc=0, condition=1
+
+intc=SUMMING,setPhysicalBoundaryConditions:
+block_1, patch_box = [(1,1),(10,15)]
+	fill_box=[(0,1),(0,15)], type=1, loc=0, condition=2
+	fill_box=[(0,0),(0,0)], type=1, loc=0, condition=1
+	fill_box=[(1,16),(11,16)], type=1, loc=3, condition=3
+	fill_box=[(0,16),(0,16)], type=2, loc=2, condition=1
+
+intc=SUMMING,setPhysicalBoundaryConditions:
+block_2, patch_box = [(1,1),(5,10)]
+	fill_box=[(1,0),(6,0)], type=1, loc=2, condition=1
+	fill_box=[(0,0),(0,0)], type=1, loc=2, condition=2
+
+intc=SUMMING,setPhysicalBoundaryConditions:
+block_3, patch_box = [(1,1),(14,15)]
+	fill_box=[(0,16),(15,16)], type=1, loc=3, condition=3
+
+intc=SUMMING,setPhysicalBoundaryConditions:
+block_5, patch_box = [(1,1),(14,10)]
+	fill_box=[(0,0),(15,0)], type=1, loc=2, condition=1
+
+intc=SUMMING,setPhysicalBoundaryConditions:
+block_6, patch_box = [(1,1),(5,10)]
+	fill_box=[(0,0),(6,0)], type=1, loc=2, condition=1
+
+intc=SUMMING,setPhysicalBoundaryConditions:
+block_7, patch_box = [(1,1),(10,15)]
+	fill_box=[(11,0),(11,15)], type=1, loc=1, condition=1
+	fill_box=[(0,16),(10,16)], type=1, loc=3, condition=3
+	fill_box=[(11,16),(11,16)], type=2, loc=3, condition=1
+
+intc=SUMMING,computeOnPatch:
+block_0, patch_box = [(1,1),(10,10)]
+	block_regular_fill_box=[(11,1),(11,10)], type=1, loc=1
+	block_regular_fill_box=[(1,11),(10,11)], type=1, loc=3
+	block_internal_fill_box=[(11,11),(11,11)], type=2, loc=3
+	    sing_patches = [(11,11),(12,12)] fbox=[(11,11),(11,11)] from block_3
+	    sing_patches = [(9,11),(10,12)] fbox=[(9,11),(10,11)] from block_1
+	    sing_patches = [(9,9),(10,10)] fbox=[(9,9),(10,10)] from block_0
+	    sing_patches = [(11,9),(12,10)] fbox=[(11,9),(11,10)] from block_2
+	    sing_patches = [(11,11),(12,12)] fbox=[(11,11),(11,11)] from block_4
+
+intc=SUMMING,computeOnPatch:
+block_1, patch_box = [(1,1),(10,15)]
+	block_regular_fill_box=[(11,1),(11,15)], type=1, loc=1
+	block_regular_fill_box=[(1,0),(10,0)], type=1, loc=2
+	block_internal_fill_box=[(11,0),(11,0)], type=2, loc=1
+	    sing_patches = [(11,1),(12,2)] fbox=[(11,1),(11,2)] from block_3
+	    sing_patches = [(9,1),(10,2)] fbox=[(9,1),(10,2)] from block_1
+	    sing_patches = [(9,-1),(10,0)] fbox=[(9,0),(10,0)] from block_0
+	    sing_patches = [(11,-1),(12,0)] fbox=[(11,0),(11,0)] from block_2
+	    sing_patches = [(11,-1),(12,0)] fbox=[(11,0),(11,0)] from block_4
+
+intc=SUMMING,computeOnPatch:
+block_2, patch_box = [(1,1),(5,10)]
+	block_regular_fill_box=[(0,1),(0,10)], type=1, loc=0
+	block_regular_fill_box=[(6,1),(6,10)], type=1, loc=1
+	block_regular_fill_box=[(1,11),(5,11)], type=1, loc=3
+	block_internal_fill_box=[(0,11),(0,11)], type=2, loc=2
+	    sing_patches = [(-1,11),(0,12)] fbox=[(0,11),(0,11)] from block_3
+	    sing_patches = [(-1,11),(0,12)] fbox=[(0,11),(0,11)] from block_1
+	    sing_patches = [(-1,9),(0,10)] fbox=[(0,9),(0,10)] from block_0
+	    sing_patches = [(1,9),(2,10)] fbox=[(1,9),(2,10)] from block_2
+	    sing_patches = [(1,11),(2,12)] fbox=[(1,11),(2,11)] from block_4
+	block_internal_fill_box=[(6,11),(6,11)], type=2, loc=3
+	    sing_patches = [(4,11),(5,12)] fbox=[(4,11),(5,11)] from block_4
+	    sing_patches = [(4,9),(5,10)] fbox=[(4,9),(5,10)] from block_2
+	    sing_patches = [(6,9),(7,10)] fbox=[(6,9),(6,10)] from block_5
+
+intc=SUMMING,computeOnPatch:
+block_3, patch_box = [(1,1),(14,15)]
+	block_regular_fill_box=[(0,1),(0,15)], type=1, loc=0
+	block_regular_fill_box=[(15,1),(15,15)], type=1, loc=1
+	block_regular_fill_box=[(1,0),(14,0)], type=1, loc=2
+	block_regular_fill_box=[(15,0),(15,0)], type=2, loc=1
+	block_internal_fill_box=[(0,0),(0,0)], type=2, loc=0
+	    sing_patches = [(1,1),(2,2)] fbox=[(1,1),(2,2)] from block_3
+	    sing_patches = [(-1,1),(0,2)] fbox=[(0,1),(0,2)] from block_1
+	    sing_patches = [(-1,-1),(0,0)] fbox=[(0,0),(0,0)] from block_0
+	    sing_patches = [(-1,-1),(0,0)] fbox=[(0,0),(0,0)] from block_2
+	    sing_patches = [(1,-1),(2,0)] fbox=[(1,0),(2,0)] from block_4
+
+intc=SUMMING,computeOnPatch:
+block_4, patch_box = [(1,1),(14,5)]
+	block_regular_fill_box=[(0,1),(0,5)], type=1, loc=0
+	block_regular_fill_box=[(15,1),(15,5)], type=1, loc=1
+	block_regular_fill_box=[(1,0),(14,0)], type=1, loc=2
+	block_regular_fill_box=[(1,6),(14,6)], type=1, loc=3
+	block_regular_fill_box=[(15,6),(15,6)], type=2, loc=3
+	block_internal_fill_box=[(0,0),(0,0)], type=2, loc=0
+	    sing_patches = [(1,1),(2,2)] fbox=[(1,1),(2,2)] from block_4
+	    sing_patches = [(-1,1),(0,2)] fbox=[(0,1),(0,2)] from block_2
+	    sing_patches = [(1,-1),(2,0)] fbox=[(1,0),(2,0)] from block_5
+	block_internal_fill_box=[(15,0),(15,0)], type=2, loc=1
+	    sing_patches = [(13,1),(14,2)] fbox=[(13,1),(14,2)] from block_4
+	    sing_patches = [(13,-1),(14,0)] fbox=[(13,0),(14,0)] from block_5
+	    sing_patches = [(15,1),(16,2)] fbox=[(15,1),(15,2)] from block_6
+	block_internal_fill_box=[(0,6),(0,6)], type=2, loc=2
+	    sing_patches = [(1,6),(2,7)] fbox=[(1,6),(2,6)] from block_3
+	    sing_patches = [(-1,6),(0,7)] fbox=[(0,6),(0,6)] from block_1
+	    sing_patches = [(-1,6),(0,7)] fbox=[(0,6),(0,6)] from block_0
+	    sing_patches = [(-1,4),(0,5)] fbox=[(0,4),(0,5)] from block_2
+	    sing_patches = [(1,4),(2,5)] fbox=[(1,4),(2,5)] from block_4
+
+intc=SUMMING,computeOnPatch:
+block_5, patch_box = [(1,1),(14,10)]
+	block_regular_fill_box=[(0,1),(0,10)], type=1, loc=0
+	block_regular_fill_box=[(15,1),(15,10)], type=1, loc=1
+	block_regular_fill_box=[(1,11),(14,11)], type=1, loc=3
+	block_internal_fill_box=[(0,11),(0,11)], type=2, loc=2
+	    sing_patches = [(1,11),(2,12)] fbox=[(1,11),(2,11)] from block_4
+	    sing_patches = [(-1,9),(0,10)] fbox=[(0,9),(0,10)] from block_2
+	    sing_patches = [(1,9),(2,10)] fbox=[(1,9),(2,10)] from block_5
+	block_internal_fill_box=[(15,11),(15,11)], type=2, loc=3
+	    sing_patches = [(13,11),(14,12)] fbox=[(13,11),(14,11)] from block_4
+	    sing_patches = [(13,9),(14,10)] fbox=[(13,9),(14,10)] from block_5
+	    sing_patches = [(15,9),(16,10)] fbox=[(15,9),(15,10)] from block_6
+
+intc=SUMMING,computeOnPatch:
+block_6, patch_box = [(1,1),(5,10)]
+	block_regular_fill_box=[(0,1),(0,10)], type=1, loc=0
+	block_regular_fill_box=[(6,1),(6,10)], type=1, loc=1
+	block_regular_fill_box=[(1,11),(5,11)], type=1, loc=3
+	block_regular_fill_box=[(6,11),(6,11)], type=2, loc=3
+	block_internal_fill_box=[(0,11),(0,11)], type=2, loc=2
+	    sing_patches = [(1,11),(2,12)] fbox=[(1,11),(2,11)] from block_4
+	    sing_patches = [(-1,9),(0,10)] fbox=[(0,9),(0,10)] from block_5
+	    sing_patches = [(1,9),(2,10)] fbox=[(1,9),(2,10)] from block_6
+
+intc=SUMMING,computeOnPatch:
+block_7, patch_box = [(1,1),(10,15)]
+	block_regular_fill_box=[(0,1),(0,15)], type=1, loc=0
+	block_regular_fill_box=[(1,0),(10,0)], type=1, loc=2
+	block_regular_fill_box=[(0,0),(0,0)], type=2, loc=0
+
+
+++++++++++++++++++++++++++++++++++++++++++++
+At end of timestep # 1
+Dt = 1, Simulation time is 2
+++++++++++++++++++++++++++++++++++++++++++++
+
+

@@ -1,0 +1,204 @@
+//
+// 文件名:     box-3d.input
+// 软件包:     JASMIN application
+// 版权  :     (c) 2004-2010 北京应用物理与计算数学研究所
+// 版本号:     $Revision: 170 $
+// 修改  :     $Date: 2007-06-27 08:44:22  $
+// 描述  :     Input file for JASMIN Euler example problem (3d box)
+//
+
+Euler {
+   gamma            = 1.4      // gamma = Ratio of specific heats
+
+   godunov_order    = 4
+
+   riemann_solve      = "APPROX_RIEM_SOLVE" 
+// riemann_solve      = "EXACT_RIEM_SOLVE" 
+// riemann_solve      = "HLLC_RIEM_SOLVE"
+
+   corner_transport = "CORNER_TRANSPORT_2"
+
+   data_problem      = "SPHERE"
+
+   Initial_data {
+      radius            = 0.125
+      center            = 0.5 , 0.5 , 0.5
+
+      density_inside    = 8.0
+      velocity_inside   = 0.0 , 0.0 , 0.0
+      pressure_inside   = 40.0
+
+      density_outside    = 1.0
+      velocity_outside   = 0.0 , 0.0 , 0.0
+      pressure_outside   = 1.0
+
+   }
+
+   Refinement_data {
+      refine_criteria = "PRESSURE_GRADIENT"
+ 
+      PRESSURE_GRADIENT {
+         grad_tol = 10.0
+      }
+   }
+
+   // valid boundary_condition values are "FLOW", "REFLECT", "DIRICHLET"
+   Boundarydata {
+      boundary_face_xlo {
+         boundary_condition      = "FLOW"
+      }
+      boundary_face_xhi {
+         boundary_condition      = "FLOW"
+      }
+      boundary_face_ylo {
+         boundary_condition      = "FLOW"
+      }
+      boundary_face_yhi {
+         boundary_condition      = "FLOW"
+      }
+      boundary_face_zlo {
+         boundary_condition      = "FLOW"
+      }
+      boundary_face_zhi {
+         boundary_condition      = "FLOW"
+      }
+
+      boundary_edge_ylo_zlo { // XFLOW, XREFLECT, XDIRICHLET not allowed
+         boundary_condition      = "ZFLOW"
+      }
+      boundary_edge_yhi_zlo { // XFLOW, XREFLECT, XDIRICHLET not allowed
+         boundary_condition      = "ZFLOW"
+      }
+      boundary_edge_ylo_zhi { // XFLOW, XREFLECT, XDIRICHLET not allowed
+         boundary_condition      = "ZFLOW"
+      }
+      boundary_edge_yhi_zhi { // XFLOW, XREFLECT, XDIRICHLET not allowed
+         boundary_condition      = "ZFLOW"
+      }
+      boundary_edge_xlo_zlo { // YFLOW, YREFLECT, YDIRICHLET not allowed
+         boundary_condition      = "XFLOW"
+      }
+      boundary_edge_xlo_zhi { // YFLOW, YREFLECT, YDIRICHLET not allowed
+         boundary_condition      = "XFLOW"
+      }
+      boundary_edge_xhi_zlo { // YFLOW, YREFLECT, YDIRICHLET not allowed
+         boundary_condition      = "XFLOW"
+      }
+      boundary_edge_xhi_zhi { // YFLOW, YREFLECT, YDIRICHLET not allowed
+         boundary_condition      = "XFLOW"
+      }
+      boundary_edge_xlo_ylo { // ZFLOW, ZREFLECT, ZDIRICHLET not allowed
+         boundary_condition      = "YFLOW"
+      }
+      boundary_edge_xhi_ylo { // ZFLOW, ZREFLECT, ZDIRICHLET not allowed
+         boundary_condition      = "YFLOW"
+      }
+      boundary_edge_xlo_yhi { // ZFLOW, ZREFLECT, ZDIRICHLET not allowed
+         boundary_condition      = "YFLOW"
+      }
+      boundary_edge_xhi_yhi { // ZFLOW, ZREFLECT, ZDIRICHLET not allowed
+         boundary_condition      = "YFLOW"
+      }
+
+      boundary_node_xlo_ylo_zlo { 
+         boundary_condition      = "XFLOW"
+      }
+      boundary_node_xhi_ylo_zlo { 
+         boundary_condition      = "XFLOW"
+      }
+      boundary_node_xlo_yhi_zlo { 
+         boundary_condition      = "XFLOW"
+      }
+      boundary_node_xhi_yhi_zlo { 
+         boundary_condition      = "XFLOW"
+      }
+      boundary_node_xlo_ylo_zhi { 
+         boundary_condition      = "XFLOW"
+      }
+      boundary_node_xhi_ylo_zhi { 
+         boundary_condition      = "XFLOW"
+      }
+      boundary_node_xlo_yhi_zhi { 
+         boundary_condition      = "XFLOW"
+      }
+      boundary_node_xhi_yhi_zhi { 
+         boundary_condition      = "XFLOW"
+      }
+
+   }
+
+}
+
+ Main{
+// log file parameters 
+   log_file_name = "Euler-box_3d.log"
+   log_all_nodes    = FALSE
+
+// visualization dump parameters 
+   javis_dump_interval     = 10          // zero to turn off
+   javis_dump_dirname      = "javis_box3d"
+
+// restart dump parameters 
+   restart_interval        = 1000        // zero to turn off
+   restart_write_dirname   = "restart_box3d"
+}
+
+TimerManager {
+            // output exclusive time
+   timer_list               = "apps::main::*",
+                              "apps::Euler::*",
+                              "algs::GriddingAlgorithm::*"
+}
+
+GridGeometry {
+   domain_boxes  = [ (0,0,0) , (9,9,9) ]
+   x_lo          = 0.e0,0.e0,0.e0     // lower end of computational domain.
+   x_up          = 1.e0,1.e0,1.e0     // upper end of computational domain.
+}
+
+
+EulerLevelIntegrator {
+   cfl                      = 0.9e0    // max cfl factor used in problem
+
+}
+
+
+HierarchyTimeIntegrator {
+   start_time            = 0.e0     // initial simulation time
+   end_time              = 100.e0    // final simulation time
+   max_integrator_steps  = 100      // max number of simulation timesteps
+   max_dt              = 1.e-2       // 最大时间步步长.
+   grow_dt             = 1.1         // 连续两个时间步长的最大放大倍数.
+   regrid_interval     = 2           // 网格层重构间隔.
+   regrid_tag_buffer   = 2           // 网格层标记缓冲区大小.
+
+   use_nonuniform_workload  = FALSE
+   load_balancing_threshold = 0.95
+   print_balance_efficiency = FALSE
+
+StandardTagAndInitialize{
+   tagging_method = "ERROR_DETECTOR"
+   }
+
+GriddingAlgorithm {
+   
+   max_levels             = 3        // Maximum number of levels in hierarchy.
+   ratio_to_coarser {                // vector ratio to next coarser level
+      level_1             = 2,2,2
+      level_2             = 2,2,2
+   }
+
+   largest_patch_size {
+      level_0 =  10, 10, 10          // largest patch allowed in hierarchy
+                                     // all finer levels will use same values as level_0...
+   }
+
+   smallest_patch_size {
+      level_0 =  8, 8, 8 
+      // all finer levels will use same values as level_0...
+   }
+}
+
+
+}
+

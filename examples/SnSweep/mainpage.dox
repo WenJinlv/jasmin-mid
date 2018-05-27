@@ -1,0 +1,145 @@
+/***************************************************************************
+*                                                                          *
+* 基于JASMIN框架求解扩散方程:                                              *
+*                                                                          *
+***************************************************************************/
+
+/*!
+  @mainpage  SnSweep程序
+
+  该程序应用JASMIN框架的积分算法和扫描构件, 实现Sn方法, 求解多群中子输运方程.
+
+  方程和数值方法请参考: \ref package_examples_SnSweep_equation
+
+  简要使用说明请参考: @ref package_examples_SnSweep_readme.
+  
+  源代码请参考:
+  - main()
+  - SnSweepLevelIntegrator
+  - SnSweep
+
+  返回 <a href="../../index.html">JASMIN示范程序首页</a>.
+ */
+
+/*! 
+ @page package_examples_SnSweep_equation  SnSweep程序的数学方案
+
+  特别说明:
+  三维SnSweep程序的数学方案摘自阳述林, 莫则尧, 沈隆均的"基于几何区域分解的三维输运问题并行迭代算法",
+  《计算物理》21(1):1-9, 2004.
+
+  三维直角坐标系下的非定态多群中子输运方程:
+    -   @f$
+            \frac{1}{v_g} \frac{\partial \varphi_g}{\partial t}  
+            + \xi \frac{\partial \varphi_g}{\partial x} 
+            + \mu \frac{\partial \varphi_g}{\partial y} 
+            + \eta \frac{\partial \varphi_g}{\partial z}
+            + \sigma_g^t \varphi_g 
+            = q_g(x,y,z,\eta, \omega,t) 
+            + \frac{1}{4 \pi} 
+              \sum_{g'=1}^g \sigma_{g' \to g}^s \int_{-1}^1 d \eta' 
+              \int_0^{2 \pi} \varphi_{g'} (x,y,z,\eta', \omega',t) d \omega', \\
+
+            \quad x \in [0, x_B], \quad y \in [0, y_B], \quad z \in [0, z_B], 
+            \quad t \ge 0, \quad g = 1, 2, \ldots, G.
+        @f$
+    
+    - 其中 @f$ \varphi_g @f$ 为第g群中子角通量,
+           @f$ \Omega = \xi e_x + \mu e_y + \eta e_z @f$ 为中子运动方向单位向量, 
+           @f$ \sigma_g^t @f$ 和 @f$ \sigma_{g' \to g}^s @f$ 分别为输运截面和散射截面. 
+
+  初始条件:
+
+        @f$
+            \varphi_{g} (x,y,z,\eta, \omega,0) = \varphi_{g}^0 (x,y,z,\eta, \omega),
+            \quad g = 1, 2, \ldots, G.
+        @f$
+
+  边界条件(无进流):
+
+        @f$
+                  \varphi_{g} (0,y,z,\eta, \omega,t) |_{\xi > 0} = 0, 
+            \quad \varphi_{g} (x_B,y,z,\eta, \omega,t) |_{\xi < 0} = 0, \\
+            \quad \varphi_{g} (x,0,z,\eta, \omega,t) |_{\mu > 0} = 0,
+            \quad \varphi_{g} (x,y_B,z,\eta, \omega,t) |_{\mu < 0} = 0,  \\
+            \quad \varphi_{g} (x,y,0,\eta, \omega,t) |_{\eta > 0} = 0, 
+            \quad \varphi_{g} (x,y,z_B,\eta, \omega,t) |_{\eta < 0} = 0
+        @f$
+ 
+  离散格式:
+    - 均匀矩形网格
+    - 角空间: Sn角方向离散, \n
+      时间:全隐式离散,      \n
+      空间: 迎风差分格式
+    - 离散角通量 @f$ \varphi_{g,i,j,k,m}^{n} @f$ 定义在网格结点上, 
+      其中 i,j,k 为结点索引, m 为方向索引, n 为时间索引.
+    - 离散计算格式: \n
+        @f$
+             \varphi_{g,i,j,k,m}^{n+1}
+             =  \frac{1}{ \frac{1}{v_g \Delta t} 
+                          + \sigma_{g,i,j,k}^{t,n+1} 
+                          + \frac{|\xi_m|}{\Delta x} 
+                          + \frac{|\mu_m|}{\Delta y} 
+                          + \frac{|\eta_m|}{\Delta z} 
+                        } 
+                [ \frac{1}{v_g \Delta t} \varphi_{g,i,j,k,m}^{n}
+                  + q_{g,i,j,k,m}^{n+1} 
+                  + \sum_{g'=1}^g \sigma_{g' \to g,i,j,k}^{s,n+1} 
+                    \sum_{m'=1}^M W_{m'} \varphi_{g',i,j,k,m'}^{n+1}
+                  + \frac{|\xi_m|}{\Delta x} \varphi_{g,i,j,k,m}^{n+1(x)}
+                  + \frac{|\mu_m|}{\Delta y} \varphi_{g,i,j,k,m}^{n+1(y)}
+                  + \frac{|\eta_m|}{\Delta z} \varphi_{g,i,j,k,m}^{n+1(z)}].
+        @f$
+        
+
+        其中,  @f$ \varphi_{g,i,j,k,m}^{n+1(x)}, \varphi_{g,i,j,k,m}^{n+1(y)}, 
+        \varphi_{g,i,j,k,m}^{n+1(z)} @f$ 分别指沿方向 @f$ \Omega_m @f$, 
+        结点 i,j,k 的在x,y,z轴的上游结点的角通量.
+
+    - 采用源迭代法迭代求解上述离散格式.
+  
+  该程序同时也支持二维直角坐标系下的中子输运.
+*/
+
+/*!
+ @page package_examples_SnSweep_readme  SnSweep程序的README
+
+\verbatim
+
+包含的文件和目录:
+-----------------------
+   main.C                         -  主程序.
+   SnSweepLevelIntegrator.[C,h]   -  C++ 类, 用户实现的网格层时间积分算法类.
+   SnSweep.[C,h]                  -  C++ 类, 用户实现的网格片时间积分算法类.
+   SnSweepFort.h                  -  声明用户Fortran子程序的头文件.
+   fortran/2d,3d                  -  求解输运方程的Fortran子程序.
+   sample_input/*                 -  输入文件示例.
+
+
+编译和运行
+----------
+   - 编译: make <prog name>   
+           其中 <prog name> = "main-2d" (二维情况) 或 "main-3d" (三维情况)  
+
+   - 运行: main2d <input file>   (串行运行，不使用 MPI)
+           mpirun -np <nprocs> main2d <input file>  (并行运行, 使用 MPI)
+
+     例如:
+           main2d sample_input/snsweep-2d.input
+           mpirun -np 2 main2d sample_input/snsweep-2d.input
+
+输入文件
+--------
+   sample_input目录下有若干输入文件示例:
+      snsweep-2d.input .............. 二维输运问题输入文件
+      snsweep-3d.input .............. 三维输运问题输入文件
+      
+      上述输入文件通过 include 语句包含了以下参数文件:
+      sn.para    ........... Sn离散纵标参数
+      eg2.para   ........... 2群能群参数.   
+      eg16.para  ........... 16群能群参数.   
+
+\endverbatim
+
+*/
+

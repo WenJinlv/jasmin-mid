@@ -1,0 +1,85 @@
+/***************************************************************************
+*                                                                          *
+* 基于JASMIN框架求解EULER方程:                                             *
+*                                                                          *
+***************************************************************************/
+
+/*!
+  @mainpage  Euler程序
+
+  本程序应用JASMIN框架, 在多层均匀矩形结构网格上, 采用显式Goundov格式, 求解Euler模型问题.
+
+  源代码请参考:
+  - main()                   主程序
+  - EulerLevelIntegrator     网格层积分算法
+  - Euler                    网格片积分算法
+
+  运行请参考: @ref package_examples_Euler_readme
+  
+  返回 <a href="../index.html">JASMIN示范程序首页</a>.
+*/
+
+/*!
+ @page package_examples_Euler_readme  Euler程序README
+
+\verbatim
+
+
+1. 编译和运行
+
+编译:
+    make <prog name>   其中 <prog name> = "main-2d" (二维情况)
+                                           = "main-3d" (三维情况)  
+
+运行: 
+
+    main2d <input file>                     ... 串行运行   (不使用 MPI)
+    mpirun -np <nprocs> main2d <input file> ... 并行运行   (使用 MPI)
+
+    例如:
+        main2d sample_input/room-2d.input
+        mpirun -np 2 main2d sample_input/room-2d.input
+
+重启动运行:
+
+    在正常运行命令的尾部添加: <restart dir> <restore num>
+        <restart dir> 存放重启动文件的目录.
+        <restore num> 重启动文件的序列号(一般为输出该文件的时间步).
+     
+    例如:  (从第5个时间步重启动)
+        
+        main2d sample_input/room-2d.input restart_room-2d 5
+        mpirun -np 2 main2d sample_input/room-2d.input restart_room-2d 5
+
+    注意: 重启动前后所使用的进程数必须一致. 
+
+2. 输入文件
+
+    sample_input目录下有若干输入文件示例，分别在下面的Euler应用问题中使用:
+
+        box-3d.input .............. 立方体内带有大初始压力差的三维球外爆问题.
+				    
+        room-2d.input ............. 在零时刻有大压力差的二维球外爆问题.
+				     
+        room-3d.input ............. 在零时刻有大压力差的三维球外爆问题.
+
+        sphere-2d-re.input ........ 二维球外爆问题.
+
+        step-2d.input ............. 二维超声速流的台阶问题.
+
+        step-2d-5levels.input ..... 二维超声速流的台阶问题(网格层数为5).
+
+        plate-CJ-model2d.input .... 二维平板起爆模型.
+
+        plate-CJ-model3d.input ...  三维平板起爆模型.
+
+        two-points-CJ-model2d.input ... 二维两点起爆模型.
+
+        two-points-CJ-model3d.input ... 三维两点起爆模型.
+
+    RP_input目录下是关于求解 Riemann问题的输入文件.
+
+\endverbatim
+
+    Riemann问题的输入文件说明参见 @ref package_examples_Euler_RIEMANN.
+*/

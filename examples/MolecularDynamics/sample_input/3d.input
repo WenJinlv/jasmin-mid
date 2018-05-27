@@ -1,0 +1,91 @@
+// 
+// 文件名:    rotation-2d.input
+// 软件包:    JASMIN application
+// 版权  :	(c) 2004-2010 北京应用物理与计算数学研究所
+// 版本号:    $Revision: 1.4 $
+// 修改  :    $Date: 2007/01/12 06:52:41 $
+// 描述  :    输入文件:JASMIN-MD实例.
+//
+Main {
+
+    // 日志文件名称.
+   log_file_name = "MolecularDynamics-3d.log"
+   log_all_nodes    = FALSE
+
+   // 可视化数据场的输出参数.
+   viz_dump_interval     = 50        // 输出时间步的间隔. 0表示关闭.
+   viz_dump_dirname      = "viz"  // 存储数据场的目录名.
+   viz_number_procs_per_file = 1         // 多少个进程共享一个输出文件.
+
+   // 重启动控制参数.
+   restart_interval       = 1000      // 重启动时间步的间隔. 0表示关闭.
+   restart_write_dirname  = "restart_MD2d" // 存储重启动数据场的目录名.
+
+}
+
+MD {
+ //左边的物体
+   left_obj_velocity = 100.0           // x方向的速度.
+   left_obj_position = 0.1e0, 0.3e0  // x方向的相对位置.
+ //右边的物体
+   right_obj_velocity = -80.0            // x方向的速度.
+   right_obj_position = 0.75e0, 0.95e0 // x方向的相对位置.
+ //三角形槽
+   triangle_vertex = 1.0              //槽顶点在x方向的相对位置
+   triangle_angle  = 180                //槽的角度
+ //其它参数
+   ghost_cells = 1,1,1                 // 最大影像单元宽度.
+   time_step_length = 0.001            // 积分时间步长.
+}
+
+TimerManager{
+   print_exclusive  = TRUE
+   print_summed     = TRUE
+   print_max        = TRUE
+   timer_list       = "algs::HierarchyTimeIntegrator::*"
+}
+
+
+CartesianGeometry{
+   domain_boxes  = [(0,0,0), (19,19,3)]       // 计算区域的索引范围
+   x_lo          = 0.0e0, 0.0e0, 0.0e0        // 计算区域定界域的左下角空间坐标
+   x_dx          = 10.845e0, 10.845e0, 10.845e0  // 计算区域定界域的右上角空间坐标
+                                              // 注: 单元边长为10.845 .
+   periodic_dimension = 0,1,1                 // 各个坐标轴方向上物理边界条件是否为周期性
+                                              // 值0表示非周期性, 值1表示周期型.
+}
+
+MDLevelIntegrator{
+   cfl                = 1.0e0    // 最大CFL因子.
+}
+
+HierarchyTimeIntegrator{
+
+   start_time           = 0.e0    // 模拟的初始时刻.
+   end_time             = 1.0     // 模拟的终止时刻.
+   max_integrator_steps = 1000      // 模拟的最大时间步数.
+
+   max_dt              = 1.e-1       // 最大时间步步长.
+   grow_dt             = 1.0         // 连续两个时间步长的最大放大倍数.
+
+   regrid_interval  = 49
+   use_nonuniform_workload  = TRUE
+   load_balancing_threshold = 0.95
+   print_balance_efficiency = FALSE
+
+   GriddingAlgorithm{
+      // 最大网格层数.
+      max_levels = 1         // 网格片层次结构中的最大网格层数.
+
+      // 最大网格片大小.
+      largest_patch_size {
+         level_0 = 5, 5, 5
+      }
+
+      // 最小网格片大小.
+      smallest_patch_size {
+         level_0 = 1, 1, 1 
+      }
+   }
+}
+
